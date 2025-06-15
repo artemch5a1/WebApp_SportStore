@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SportStorage.DataAccess\SportStorage.DataAccess.csproj" />
+    <ProjectReference Include="..\SportStore.Application\SportStore.Application.csproj" />
   </ItemGroup>
 
 </Project>

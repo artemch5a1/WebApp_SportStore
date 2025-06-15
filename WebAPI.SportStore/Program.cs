@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using SportStorage.DataAccess;
+using SportStorage.DataAccess.Reposotories;
+using SportStore.Application.Servises;
+using SportStore.Core.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,10 @@ builder.Services.AddDbContext<SportStorageDbContext>(options =>
 
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<ISportItemService, SportItemService>();
+
+builder.Services.AddScoped<ISportsItemsRepository, SportsItemsRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/", () => Results.Redirect("/swagger/index.html")).ExcludeFromDescription();
 
 app.Run();
