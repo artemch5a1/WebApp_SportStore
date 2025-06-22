@@ -1,42 +1,31 @@
-'use client';
-import ProductCard from '../components/SportItemCard'
+"use client";
+import { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
+import { getAllSportItems } from "../Services/SportItems";
 
-const products = [
-  {
-    id: 1,
-    title: 'Фитнес-коврик',
-    description: 'Удобный коврик для занятий йогой и фитнесом.',
-    price: '₽1,490',
-  },
-  {
-    id: 2,
-    title: 'Гантели 10 кг',
-    description: 'Универсальные гантели для домашних тренировок.',
-    price: '₽2,990',
-  },
-  {
-    id: 3,
-    title: 'Скакалка',
-    description: 'Прочная скакалка для кардиотренировок.',
-    price: '₽690',
-  },
-  {
-    id: 4,
-    title: 'Футбольный мяч',
-    description: 'Официальный размер, подойдёт для игры на улице.',
-    price: '₽1,790',
-  },
-]
 
 export default function HomePage() {
+  const [productsAPI, setProduct] = useState<SportItem[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      const productsFetch = await getAllSportItems();
+      setLoading(false);
+      setProduct(productsFetch);
+      console.log("Полученный список товаров:", productsAPI);
+    };
+
+    getProduct();
+  }, []);
+
   return (
     <section className="container">
       <h2>Популярные товары</h2>
       <div className="grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} {...product} />
-        ))}
+        <ProductCard sportItems={productsAPI} />
       </div>
     </section>
-  )
+  );
 }

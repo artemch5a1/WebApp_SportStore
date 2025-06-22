@@ -38,6 +38,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(x =>
+{
+    x.WithHeaders().AllowAnyHeader();
+    x.WithOrigins().AllowAnyOrigin();
+    x.WithMethods().AllowAnyMethod();
+});
+
 app.MapGet("/", () => Results.Redirect("/swagger/index.html")).ExcludeFromDescription();
 
 app.Run();
